@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 import chromedriver_binary
 from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
+import urllib
 import time
 from bs4 import BeautifulSoup, NavigableString
 import os
@@ -74,6 +75,22 @@ class Driver:
 
         current = 'description'
 
+        images = []
+        filename = ''
+
+        for img in soup.find_all('img'):
+            images.append(img.get('src'))
+
+        for i in images:
+            filename = i.rsplit('/')[-1]
+            res = requests.get(i, stream = True)
+
+            if res.status_code == 200:
+                with open(filename, 'wb') as f:
+                    shutil.copyfileobj(res.raw, f)
+
+            examples = examples + f'\n![]({filename})\n'
+
         for item in soup:
 
             if (isinstance(item, NavigableString) and item.text != ' '):
@@ -90,16 +107,16 @@ class Driver:
             elif len(item.text) < 15 and (item.text.startswith('Example') or item.text.strip() == ""):
                 continue
 
-            elif item.find('img') != None:
-                src = item.img.get('src')
-                filename = src.rsplit('/')[-1]
-                res = requests.get(src, stream=True)
+            # elif item.find('img') != None:
+            #     src = item.img.get('src')
+            #     filename = src.rsplit('/')[-1]
+            #     res = requests.get(src, stream = True)
                 
-                if res.status_code == 200:
-                    with open(filename, 'wb') as f:
-                        shutil.copyfileobj(res.raw, f)
+            #     if res.status_code == 200:
+            #         with open(filename, 'wb') as f:
+            #             shutil.copyfileobj(res.raw, f)
                 
-                examples += f'\n![]({filename})\n'
+            #     examples += f'\n![]({filename})\n'
 
             elif current == 'examples' and item.name == 'pre':
 
@@ -108,7 +125,7 @@ class Driver:
             elif item.name == 'ul':
 
                 constraints = constraints + str(item)
-        
+
         md = md.format(title=title, difficulty= difficulty, examples=examples, constraints=constraints, description=description)
 
         f = open("README.md", "w")
