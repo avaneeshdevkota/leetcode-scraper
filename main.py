@@ -65,6 +65,7 @@ class Driver:
         content = self.driver.find_element(By.CSS_SELECTOR, 'div[class*="question-content"]').get_attribute('innerHTML')
         soup = BeautifulSoup(str(content), 'lxml').div
 
+        os.chdir("/Users/avaneeshdevkota/Desktop/repos/competitive-coding")
         os.mkdir(title)
         os.chdir(title)
 
@@ -79,17 +80,15 @@ class Driver:
         filename = ''
 
         for img in soup.find_all('img'):
-            images.append(img.get('src'))
-
-        for i in images:
+            i = image.get(src)
             filename = i.rsplit('/')[-1]
             res = requests.get(i, stream = True)
 
-            if res.status_code == 200:
+            if (res.status_code == 200):
                 with open(filename, 'wb') as f:
                     shutil.copyfileobj(res.raw, f)
 
-            examples = examples + f'\n![]({filename})\n'
+            images.append(f'\n![]({filename})\n')
 
         for item in soup:
 
@@ -137,16 +136,15 @@ class Driver:
         # # except Exception as e:
         # #     print(f"{e} Error processing {url}")
         # #     return self.download(url)
-        #     # self.data.append([url, 'sjb8193', 'N', ' ', ' ', ' ', 'Y'])
 
 if __name__ == "__main__":
 
-    input_file = "problems.txt"
-    with open(input_file, 'r', encoding="utf-8") as f:
-        urls = [x.strip() for x in f.readlines()]
+    # input_file = "problems.txt"
+    # with open(input_file, 'r', encoding="utf-8") as f:
+    #     urls = [x.strip() for x in f.readlines()]
 
     d = Driver()
     # for i, url in enumerate(urls):
     #     d.download(f'https://leetcode.com{url}')
 
-    d.download('https://leetcode.com/problems/add-two-numbers/')
+    d.download('https://leetcode.com/problems/kth-missing-positive-number/')
