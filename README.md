@@ -27,4 +27,4 @@ The script will launch a Chrome browser window, navigate to the provided URL, an
 
 ## Note
 <br>
-<p>The scraper may require occasional updates if the Leetcode website's structure or layout changes. Ensure that you are using the latest version of the script to avoid compatibility issues.</p><p>This script is intended for educational and personal use only. Use it responsibly and respect the website's terms of service. Automated scraping of websites may violate their policies, so please exercise caution while using this tool.</p>
+<p>Working as of July 2023. The scraper may require occasional updates if the Leetcode website's structure or layout changes. Ensure that you are using the latest version of the script to avoid compatibility issues.</p><p>This script is intended for educational and personal use only. Use it responsibly and respect the website's terms of service. Automated scraping of websites may violate their policies, so please exercise caution while using this tool.</p>
